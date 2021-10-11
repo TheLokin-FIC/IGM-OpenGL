@@ -1,10 +1,10 @@
 * Práctica OpenGL: Iluminación con Phong
 
-  -> Prazo entrega: 23:59h **domingo 23** xaneiro 2022
+  -> Prazo entrega: 23:59h domingo *23 xaneiro* 2022
   -> Práctica OpenGL para grupos de 1 a 3 estudantes.
 
   A partir do esqueleto de código do arquivo
-  spinningcube_withlight_SKEL.cpp que podedes atopar neste repositorio
+  =spinningcube_withlight_SKEL.cpp= que podedes atopar neste repositorio
   (rama /practicaOpenGL/) tedes que implementar unha iluminación
   simple con Phong sobre un cubo 3D en movemento. A implementación ten
   que funcionar para cámara, punto(s) de luz e cubo 3D en posicións

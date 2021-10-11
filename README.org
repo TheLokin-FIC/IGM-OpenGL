@@ -1,6 +1,7 @@
 * Práctica OpenGL: Iluminación con Phong
 
-  -> Prazo entrega: 23:59h domingo *23 xaneiro* 2022
+  -> Prazo entrega: 23:59h domingo *23 de xaneiro* 2022
+
   -> Práctica OpenGL para grupos de 1 a 3 estudantes.
 
   A partir do esqueleto de código do arquivo
@@ -16,6 +17,8 @@
    homoxéneo (comportamento idéntico fronte á luz en todos os puntos
    da superficie do cubo), trátase de aplicar Phong shading básico.
 
+   Ver ata diapositiva 11 en =igm_render_teoria3.pdf=
+
 ** Segunda parte (ata +2 puntos sobre o anterior)
 
    Engadide un segundo cubo rotando, máis pequeno, (aproveitade a
@@ -28,12 +31,19 @@
    Phong, o que permite ter distintas propiedades de reflexión difusa
    por fragmento.
 
+   Diapositiva 12 en =igm_render_teoria3.pdf=
+
 ** Cuarta parte (ata + 2 puntos sobre o anterior)
 
    Engadide tamén un mapa especular, que permita distintos
    comportamentos da compoñente especular da luz en función do punto
    iluminado do cubo. O mapa especular ten que ser distinto do mapa
    difuso empregado.
+
+   Diapositiva 13 en =igm_render_teoria3.pdf=
+
+   Ver tamén mapeado de texturas a partir de diapositiva 30 en
+   =igm_render_lab2.pdf=
 
 ** Entregables
 

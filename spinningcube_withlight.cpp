@@ -8,7 +8,7 @@
 
 // GLM library to deal with matrix operations
 #include <glm/glm.hpp>
-#include <glm/mat4x4.hpp> // glm::mat4
+#include <glm/mat4x4.hpp>               // glm::mat4
 #include <glm/gtc/matrix_transform.hpp> // glm::translate, glm::rotate, glm::perspective
 #include <glm/gtc/type_ptr.hpp>
 
@@ -17,12 +17,12 @@
 int gl_width = 640;
 int gl_height = 480;
 
-void glfw_window_size_callback(GLFWwindow* window, int width, int height);
+void glfw_window_size_callback(GLFWwindow *window, int width, int height);
 void processInput(GLFWwindow *window);
 void render(double);
 
-GLuint shader_program = 0; // shader program to set render pipeline
-GLuint vao = 0; // Vertext Array Object to set input data
+GLuint shader_program = 0;                          // shader program to set render pipeline
+GLuint vao = 0;                                     // Vertext Array Object to set input data
 GLint model_location, view_location, proj_location; // Uniforms for transformation matrices
 
 // Shader names
@@ -44,20 +44,23 @@ glm::vec3 material_diffuse(1.0f, 0.5f, 0.31f);
 glm::vec3 material_specular(0.5f, 0.5f, 0.5f);
 const GLfloat material_shininess = 32.0f;
 
-int main() {
+int main()
+{
   // start GL context and O/S window using the GLFW helper library
-  if (!glfwInit()) {
+  if (!glfwInit())
+  {
     fprintf(stderr, "ERROR: could not start GLFW3\n");
     return 1;
   }
 
-/*   glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+  /*   glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
   glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
   glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
   glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE); */
 
-  GLFWwindow* window = glfwCreateWindow(gl_width, gl_height, "My spinning cube", NULL, NULL);
-  if (!window) {
+  GLFWwindow *window = glfwCreateWindow(gl_width, gl_height, "My spinning cube", NULL, NULL);
+  if (!window)
+  {
     fprintf(stderr, "ERROR: could not open window with GLFW3\n");
     glfwTerminate();
     return 1;
@@ -70,10 +73,10 @@ int main() {
   glewInit();
 
   // get version info
-  const GLubyte* vendor = glGetString(GL_VENDOR); // get vendor string
-  const GLubyte* renderer = glGetString(GL_RENDERER); // get renderer string
-  const GLubyte* glversion = glGetString(GL_VERSION); // version as a string
-  const GLubyte* glslversion = glGetString(GL_SHADING_LANGUAGE_VERSION); // version as a string
+  const GLubyte *vendor = glGetString(GL_VENDOR);                        // get vendor string
+  const GLubyte *renderer = glGetString(GL_RENDERER);                    // get renderer string
+  const GLubyte *glversion = glGetString(GL_VERSION);                    // version as a string
+  const GLubyte *glslversion = glGetString(GL_SHADING_LANGUAGE_VERSION); // version as a string
   printf("Vendor: %s\n", vendor);
   printf("Renderer: %s\n", renderer);
   printf("OpenGL version supported %s\n", glversion);
@@ -85,10 +88,10 @@ int main() {
   glDepthFunc(GL_LESS); // set a smaller value as "closer"
 
   // Vertex Shader
-  char* vertex_shader = textFileRead(vertexFileName);
+  char *vertex_shader = textFileRead(vertexFileName);
 
   // Fragment Shader
-  char* fragment_shader = textFileRead(fragmentFileName);
+  char *fragment_shader = textFileRead(fragmentFileName);
 
   // Shaders compilation
   GLuint vs = glCreateShader(GL_VERTEX_SHADER);
@@ -96,14 +99,15 @@ int main() {
   free(vertex_shader);
   glCompileShader(vs);
 
-  int  success;
+  int success;
   char infoLog[512];
   glGetShaderiv(vs, GL_COMPILE_STATUS, &success);
-  if (!success) {
+  if (!success)
+  {
     glGetShaderInfoLog(vs, 512, NULL, infoLog);
     printf("ERROR: Vertex Shader compilation failed!\n%s\n", infoLog);
 
-    return(1);
+    return (1);
   }
 
   GLuint fs = glCreateShader(GL_FRAGMENT_SHADER);
@@ -112,11 +116,12 @@ int main() {
   glCompileShader(fs);
 
   glGetShaderiv(fs, GL_COMPILE_STATUS, &success);
-  if (!success) {
+  if (!success)
+  {
     glGetShaderInfoLog(fs, 512, NULL, infoLog);
     printf("ERROR: Fragment Shader compilation failed!\n%s\n", infoLog);
 
-    return(1);
+    return (1);
   }
 
   // Create program, attach shaders to it and link it
@@ -127,11 +132,12 @@ int main() {
 
   glValidateProgram(shader_program);
   glGetProgramiv(shader_program, GL_LINK_STATUS, &success);
-  if(!success) {
+  if (!success)
+  {
     glGetProgramInfoLog(shader_program, 512, NULL, infoLog);
     printf("ERROR: Shader Program linking failed!\n%s\n", infoLog);
 
-    return(1);
+    return (1);
   }
 
   // Release shader objects
@@ -152,56 +158,49 @@ int main() {
   //       6        5
   //
   const GLfloat vertex_positions[] = {
-    -0.25f, -0.25f, -0.25f, // 1
-    -0.25f,  0.25f, -0.25f, // 0
-     0.25f, -0.25f, -0.25f, // 2
+      -0.25f, -0.25f, -0.25f, 0.0f, 0.0f, -1.0f,
+      0.25f, -0.25f, -0.25f, 0.0f, 0.0f, -1.0f,
+      0.25f, 0.25f, -0.25f, 0.0f, 0.0f, -1.0f,
+      0.25f, 0.25f, -0.25f, 0.0f, 0.0f, -1.0f,
+      -0.25f, 0.25f, -0.25f, 0.0f, 0.0f, -1.0f,
+      -0.25f, -0.25f, -0.25f, 0.0f, 0.0f, -1.0f,
 
-     0.25f,  0.25f, -0.25f, // 3
-     0.25f, -0.25f, -0.25f, // 2
-    -0.25f,  0.25f, -0.25f, // 0
+      -0.25f, -0.25f, 0.25f, 0.0f, 0.0f, 1.0f,
+      0.25f, -0.25f, 0.25f, 0.0f, 0.0f, 1.0f,
+      0.25f, 0.25f, 0.25f, 0.0f, 0.0f, 1.0f,
+      0.25f, 0.25f, 0.25f, 0.0f, 0.0f, 1.0f,
+      -0.25f, 0.25f, 0.25f, 0.0f, 0.0f, 1.0f,
+      -0.25f, -0.25f, 0.25f, 0.0f, 0.0f, 1.0f,
 
-     0.25f, -0.25f, -0.25f, // 2
-     0.25f,  0.25f, -0.25f, // 3
-     0.25f, -0.25f,  0.25f, // 5
+      -0.25f, 0.25f, 0.25f, -1.0f, 0.0f, 0.0f,
+      -0.25f, 0.25f, -0.25f, -1.0f, 0.0f, 0.0f,
+      -0.25f, -0.25f, -0.25f, -1.0f, 0.0f, 0.0f,
+      -0.25f, -0.25f, -0.25f, -1.0f, 0.0f, 0.0f,
+      -0.25f, -0.25f, 0.25f, -1.0f, 0.0f, 0.0f,
+      -0.25f, 0.25f, 0.25f, -1.0f, 0.0f, 0.0f,
 
-     0.25f,  0.25f,  0.25f, // 4
-     0.25f, -0.25f,  0.25f, // 5
-     0.25f,  0.25f, -0.25f, // 3
+      0.25f, 0.25f, 0.25f, 1.0f, 0.0f, 0.0f,
+      0.25f, 0.25f, -0.25f, 1.0f, 0.0f, 0.0f,
+      0.25f, -0.25f, -0.25f, 1.0f, 0.0f, 0.0f,
+      0.25f, -0.25f, -0.25f, 1.0f, 0.0f, 0.0f,
+      0.25f, -0.25f, 0.25f, 1.0f, 0.0f, 0.0f,
+      0.25f, 0.25f, 0.25f, 1.0f, 0.0f, 0.0f,
 
-     0.25f, -0.25f,  0.25f, // 5
-     0.25f,  0.25f,  0.25f, // 4
-    -0.25f, -0.25f,  0.25f, // 6
+      -0.25f, -0.25f, -0.25f, 0.0f, -1.0f, 0.0f,
+      0.25f, -0.25f, -0.25f, 0.0f, -1.0f, 0.0f,
+      0.25f, -0.25f, 0.25f, 0.0f, -1.0f, 0.0f,
+      0.25f, -0.25f, 0.25f, 0.0f, -1.0f, 0.0f,
+      -0.25f, -0.25f, 0.25f, 0.0f, -1.0f, 0.0f,
+      -0.25f, -0.25f, -0.25f, 0.0f, -1.0f, 0.0f,
 
-    -0.25f,  0.25f,  0.25f, // 7
-    -0.25f, -0.25f,  0.25f, // 6
-     0.25f,  0.25f,  0.25f, // 4
+      -0.25f, 0.25f, -0.25f, 0.0f, 1.0f, 0.0f,
+      0.25f, 0.25f, -0.25f, 0.0f, 1.0f, 0.0f,
+      0.25f, 0.25f, 0.25f, 0.0f, 1.0f, 0.0f,
+      0.25f, 0.25f, 0.25f, 0.0f, 1.0f, 0.0f,
+      -0.25f, 0.25f, 0.25f, 0.0f, 1.0f, 0.0f,
+      -0.25f, 0.25f, -0.25f, 0.0f, 1.0f, 0.0f};
 
-    -0.25f, -0.25f,  0.25f, // 6
-    -0.25f,  0.25f,  0.25f, // 7
-    -0.25f, -0.25f, -0.25f, // 1
-
-    -0.25f,  0.25f, -0.25f, // 0
-    -0.25f, -0.25f, -0.25f, // 1
-    -0.25f,  0.25f,  0.25f, // 7
-
-     0.25f, -0.25f, -0.25f, // 2
-     0.25f, -0.25f,  0.25f, // 5
-    -0.25f, -0.25f, -0.25f, // 1
-
-    -0.25f, -0.25f,  0.25f, // 6
-    -0.25f, -0.25f, -0.25f, // 1
-     0.25f, -0.25f,  0.25f, // 5
-
-     0.25f,  0.25f,  0.25f, // 4
-     0.25f,  0.25f, -0.25f, // 3
-    -0.25f,  0.25f,  0.25f, // 7
-
-    -0.25f,  0.25f, -0.25f, // 0
-    -0.25f,  0.25f,  0.25f, // 7
-     0.25f,  0.25f, -0.25f  // 3
-  };
-
-// Vertex Buffer Object (for vertex coordinates)
+  // Vertex Buffer Object (for vertex coordinates)
   GLuint vbo = 0;
   glGenBuffers(1, &vbo);
   glBindBuffer(GL_ARRAY_BUFFER, vbo);
@@ -209,14 +208,20 @@ int main() {
 
   // Vertex attributes
   // 0: vertex position (x, y, z)
-  glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, NULL);
+  glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), NULL);
   glEnableVertexAttribArray(0);
+
+  // 1: vertex normals (x, y, z)
+  glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void *)(3 * sizeof(float)));
+  glEnableVertexAttribArray(1);
 
   // Unbind vbo (it was conveniently registered by VertexAttribPointer)
   glBindBuffer(GL_ARRAY_BUFFER, 0);
 
   // Unbind vao
   glBindVertexArray(0);
+
+  glUseProgram(shader_program);
 
   // Uniforms
   // - Model matrix
@@ -237,15 +242,16 @@ int main() {
   glUniform3fv(loc, 1, glm::value_ptr(camera_pos));
 
   // Material attributes
+  loc = glGetUniformLocation(shader_program, "material.ambient");
+  glUniform3fv(loc, 1, glm::value_ptr(material_ambient));
   loc = glGetUniformLocation(shader_program, "material.diffuse");
-  glUniform1i(loc, 0);
+  glUniform3fv(loc, 1, glm::value_ptr(material_diffuse));
   loc = glGetUniformLocation(shader_program, "material.specular");
-  glUniform1i(loc, 1);
+  glUniform3fv(loc, 1, glm::value_ptr(material_specular));
   loc = glGetUniformLocation(shader_program, "material.shininess");
   glUniform1f(loc, material_shininess);
 
-
-    // Light attributes
+  // Light attributes
   loc = glGetUniformLocation(shader_program, "light.position");
   glUniform3fv(loc, 1, glm::value_ptr(light_pos));
   loc = glGetUniformLocation(shader_program, "light.ambient");
@@ -254,14 +260,14 @@ int main() {
   glUniform3fv(loc, 1, glm::value_ptr(light_diffuse));
   loc = glGetUniformLocation(shader_program, "light.specular");
   glUniform3fv(loc, 1, glm::value_ptr(light_specular));
-  
+
   // [...]
 
-// Render loop
-  while(!glfwWindowShouldClose(window)) {
-
+  // Render loop
+  while (!glfwWindowShouldClose(window))
+  {
     processInput(window);
-    
+
     render(glfwGetTime());
 
     glfwSwapBuffers(window);
@@ -274,19 +280,17 @@ int main() {
   return 0;
 }
 
-void render(double currentTime) {
+void render(double currentTime)
+{
   float f = (float)currentTime * 0.3f;
 
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-  glClearColor(0.6,0.6,0.6,1);
+  //glClearColor(0.6, 0.6, 0.6, 1);
 
   glViewport(0, 0, gl_width, gl_height);
-  glUseProgram(shader_program);
 
   glBindVertexArray(vao);
-
-
 
   glm::mat4 model_matrix, view_matrix, proj_matrix;
 
@@ -296,34 +300,36 @@ void render(double currentTime) {
 
   model_matrix = glm::translate(glm::mat4(1.f), glm::vec3(0.0f, 0.0f, -1.0f));
   model_matrix = glm::translate(model_matrix,
-                             glm::vec3(sinf(2.1f * f) * 0.5f,
-                                       cosf(1.7f * f) * 0.5f,
-                                       sinf(1.3f * f) * cosf(1.5f * f) * 2.0f));
+                                glm::vec3(sinf(2.1f * f) * 0.5f,
+                                          cosf(1.7f * f) * 0.5f,
+                                          sinf(1.3f * f) * cosf(1.5f * f) * 2.0f));
 
   model_matrix = glm::rotate(model_matrix,
-                          glm::radians((float)currentTime * 45.0f),
-                          glm::vec3(0.0f, 1.0f, 0.0f));
+                             glm::radians((float)currentTime * 45.0f),
+                             glm::vec3(0.0f, 1.0f, 0.0f));
   model_matrix = glm::rotate(model_matrix,
-                          glm::radians((float)currentTime * 81.0f),
-                          glm::vec3(1.0f, 0.0f, 0.0f));
+                             glm::radians((float)currentTime * 81.0f),
+                             glm::vec3(1.0f, 0.0f, 0.0f));
 
   glUniformMatrix4fv(model_location, 1, GL_FALSE, glm::value_ptr(model_matrix));
 
   proj_matrix = glm::perspective(glm::radians(50.0f),
-                                 (float) gl_width / (float) gl_height,
+                                 (float)gl_width / (float)gl_height,
                                  0.1f, 1000.0f);
   glUniformMatrix4fv(proj_location, 1, GL_FALSE, glm::value_ptr(proj_matrix));
 
   glDrawArrays(GL_TRIANGLES, 0, 36);
 }
 
-void processInput(GLFWwindow *window) {
-  if(glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
+void processInput(GLFWwindow *window)
+{
+  if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
     glfwSetWindowShouldClose(window, 1);
 }
 
 // Callback function to track window size and update viewport
-void glfw_window_size_callback(GLFWwindow* window, int width, int height) {
+void glfw_window_size_callback(GLFWwindow *window, int width, int height)
+{
   gl_width = width;
   gl_height = height;
   printf("New viewport: (width: %d, height: %d)\n", width, height);

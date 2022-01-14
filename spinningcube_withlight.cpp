@@ -298,7 +298,7 @@ void render(double currentTime)
   view_matrix = glm::lookAt(camera_pos, glm::vec3(0.f, 0.f, -1.f), glm::vec3(0.f, 1.f, 0.f));
   glUniformMatrix4fv(view_location, 1, GL_FALSE, glm::value_ptr(view_matrix));
 
-  model_matrix = glm::translate(glm::mat4(1.f), glm::vec3(0.0f, 0.0f, -1.0f));
+  model_matrix = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 0.0f, -1.0f));
   model_matrix = glm::translate(model_matrix,
                                 glm::vec3(sinf(2.1f * f) * 0.5f,
                                           cosf(1.7f * f) * 0.5f,
@@ -318,6 +318,22 @@ void render(double currentTime)
                                  0.1f, 1000.0f);
   glUniformMatrix4fv(proj_location, 1, GL_FALSE, glm::value_ptr(proj_matrix));
 
+  glDrawArrays(GL_TRIANGLES, 0, 36);
+
+  //Second cube
+  model_matrix = glm::scale(glm::mat4(1.0f), glm::vec3(0.5f));
+  model_matrix = glm::translate(model_matrix, glm::vec3(-1.5f, -1.5f, -1.0f));
+  model_matrix = glm::translate(model_matrix,
+                                glm::vec3(sinf(-2.1f * f) * 0.5f,
+                                          cosf(-1.7f * f) * 0.5f,
+                                          sinf(-1.3f * f) * cosf(1.5f * f) * 2.0f));
+  model_matrix = glm::rotate(model_matrix,
+                             glm::radians((float)currentTime * -45.0f),
+                             glm::vec3(0.0f, 1.0f, 0.0f));
+  model_matrix = glm::rotate(model_matrix,
+                             glm::radians((float)currentTime * -81.0f),
+                             glm::vec3(1.0f, 0.0f, 0.0f));
+  glUniformMatrix4fv(model_location, 1, GL_FALSE, glm::value_ptr(model_matrix));
   glDrawArrays(GL_TRIANGLES, 0, 36);
 }
 

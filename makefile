@@ -1,15 +1,11 @@
-todo: test hellotriangle helloviewport adaptviewport movingtriangle \
-	spinningcube hellotexture hellotexture2 multitex multitex2 \
-	spinningcube_withlight
+todo: spinningcube_withlight 
 
 LDLIBS=-lGL -lGLEW -lglfw -lm 
 
-spinningcube_withlight: spinningcube_withlight.o textfile.o
+spinningcube_withlight: textfile.o
 
 clean:
 	rm -f *.o *~
 
 cleanall: clean
-	rm -f test hellotriangle helloviewport adaptviewport movingtriangle \
-		spinningcube hellotexture hellotexture2 multitex multitex2 \
-		spinningcube_withlight
+	rm -f spinningcube_withlight

@@ -1,3 +1,7 @@
+// Diego Ramil López
+// David García Gondell
+// Iván Barrientos Lema
+
 // Copyright (C) 2020 Emilio J. Padrón
 // Released as Free Software under the X11 License
 // https://spdx.org/licenses/X11.html
@@ -14,6 +18,7 @@
 
 #include "textfile_ALT.h"
 
+// Window dimensions
 int gl_width = 640;
 int gl_height = 480;
 
@@ -53,10 +58,10 @@ int main()
     return 1;
   }
 
-  /*   glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-  glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
-  glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
-  glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE); */
+  // glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+  // glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+  // glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
+  // glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
   GLFWwindow *window = glfwCreateWindow(gl_width, gl_height, "My spinning cube", NULL, NULL);
   if (!window)
@@ -157,48 +162,58 @@ int main()
   // far ---> 1        2
   //       6        5
   //
-  const GLfloat vertex_positions[] = {
-      -0.25f, -0.25f, -0.25f, 0.0f, 0.0f, -1.0f,
-      0.25f, -0.25f, -0.25f, 0.0f, 0.0f, -1.0f,
-      0.25f, 0.25f, -0.25f, 0.0f, 0.0f, -1.0f,
-      0.25f, 0.25f, -0.25f, 0.0f, 0.0f, -1.0f,
-      -0.25f, 0.25f, -0.25f, 0.0f, 0.0f, -1.0f,
-      -0.25f, -0.25f, -0.25f, 0.0f, 0.0f, -1.0f,
+  // Matrix structure:
+  // x, y, z, normal x, normal y, normal z
+const GLfloat vertex_positions[] = {
+      -0.25f, -0.25f, -0.25f, 0.0f, 0.0f, -1.0f, // 1
+      -0.25f, 0.25f, -0.25f, 0.0f, 0.0f, -1.0f,  // 0
+      0.25f, -0.25f, -0.25f, 0.0f, 0.0f, -1.0f,  // 2
 
-      -0.25f, -0.25f, 0.25f, 0.0f, 0.0f, 1.0f,
-      0.25f, -0.25f, 0.25f, 0.0f, 0.0f, 1.0f,
-      0.25f, 0.25f, 0.25f, 0.0f, 0.0f, 1.0f,
-      0.25f, 0.25f, 0.25f, 0.0f, 0.0f, 1.0f,
-      -0.25f, 0.25f, 0.25f, 0.0f, 0.0f, 1.0f,
-      -0.25f, -0.25f, 0.25f, 0.0f, 0.0f, 1.0f,
+      0.25f, 0.25f, -0.25f, 0.0f, 0.0f, -1.0f,  // 3
+      0.25f, -0.25f, -0.25f, 0.0f, 0.0f, -1.0f, // 2
+      -0.25f, 0.25f, -0.25f, 0.0f, 0.0f, -1.0f, // 0
 
-      -0.25f, 0.25f, 0.25f, -1.0f, 0.0f, 0.0f,
-      -0.25f, 0.25f, -0.25f, -1.0f, 0.0f, 0.0f,
-      -0.25f, -0.25f, -0.25f, -1.0f, 0.0f, 0.0f,
-      -0.25f, -0.25f, -0.25f, -1.0f, 0.0f, 0.0f,
-      -0.25f, -0.25f, 0.25f, -1.0f, 0.0f, 0.0f,
-      -0.25f, 0.25f, 0.25f, -1.0f, 0.0f, 0.0f,
+      0.25f, -0.25f, -0.25f, 1.0f, 0.0f, 0.0f, // 2
+      0.25f, 0.25f, -0.25f, 1.0f, 0.0f, 0.0f,  // 3
+      0.25f, -0.25f, 0.25f, 1.0f, 0.0f, 0.0f,  // 5
 
-      0.25f, 0.25f, 0.25f, 1.0f, 0.0f, 0.0f,
-      0.25f, 0.25f, -0.25f, 1.0f, 0.0f, 0.0f,
-      0.25f, -0.25f, -0.25f, 1.0f, 0.0f, 0.0f,
-      0.25f, -0.25f, -0.25f, 1.0f, 0.0f, 0.0f,
-      0.25f, -0.25f, 0.25f, 1.0f, 0.0f, 0.0f,
-      0.25f, 0.25f, 0.25f, 1.0f, 0.0f, 0.0f,
+      0.25f, 0.25f, 0.25f, 1.0f, 0.0f, 0.0f,  // 4
+      0.25f, -0.25f, 0.25f, 1.0f, 0.0f, 0.0f, // 5
+      0.25f, 0.25f, -0.25f, 1.0f, 0.0f, 0.0f, // 3
 
-      -0.25f, -0.25f, -0.25f, 0.0f, -1.0f, 0.0f,
-      0.25f, -0.25f, -0.25f, 0.0f, -1.0f, 0.0f,
-      0.25f, -0.25f, 0.25f, 0.0f, -1.0f, 0.0f,
-      0.25f, -0.25f, 0.25f, 0.0f, -1.0f, 0.0f,
-      -0.25f, -0.25f, 0.25f, 0.0f, -1.0f, 0.0f,
-      -0.25f, -0.25f, -0.25f, 0.0f, -1.0f, 0.0f,
+      0.25f, -0.25f, 0.25f, 0.0f, 0.0f, 1.0f,  // 5
+      0.25f, 0.25f, 0.25f, 0.0f, 0.0f, 1.0f,   // 4
+      -0.25f, -0.25f, 0.25f, 0.0f, 0.0f, 1.0f, // 6
 
-      -0.25f, 0.25f, -0.25f, 0.0f, 1.0f, 0.0f,
-      0.25f, 0.25f, -0.25f, 0.0f, 1.0f, 0.0f,
-      0.25f, 0.25f, 0.25f, 0.0f, 1.0f, 0.0f,
-      0.25f, 0.25f, 0.25f, 0.0f, 1.0f, 0.0f,
-      -0.25f, 0.25f, 0.25f, 0.0f, 1.0f, 0.0f,
-      -0.25f, 0.25f, -0.25f, 0.0f, 1.0f, 0.0f};
+      -0.25f, 0.25f, 0.25f, 0.0f, 0.0f, 1.0f,  // 7
+      -0.25f, -0.25f, 0.25f, 0.0f, 0.0f, 1.0f, // 6
+      0.25f, 0.25f, 0.25f, 0.0f, 0.0f, 1.0f,   // 4
+
+      -0.25f, -0.25f, 0.25f, -1.0f, 0.0f, 0.0f,  // 6
+      -0.25f, 0.25f, 0.25f, -1.0f, 0.0f, 0.0f,   // 7
+      -0.25f, -0.25f, -0.25f, -1.0f, 0.0f, 0.0f, // 1
+
+      -0.25f, 0.25f, -0.25f, -1.0f, 0.0f, 0.0f,  // 0
+      -0.25f, -0.25f, -0.25f, -1.0f, 0.0f, 0.0f, // 1
+      -0.25f, 0.25f, 0.25f, -1.0f, 0.0f, 0.0f,   // 7
+
+      0.25f, -0.25f, -0.25f, 0.0f, -1.0f, 0.0f,  // 2
+      0.25f, -0.25f, 0.25f, 0.0f, -1.0f, 0.0f,   // 5
+      -0.25f, -0.25f, -0.25f, 0.0f, -1.0f, 0.0f, // 1
+
+      -0.25f, -0.25f, 0.25f, 0.0f, -1.0f, 0.0f,  // 6
+      -0.25f, -0.25f, -0.25f, 0.0f, -1.0f, 0.0f, // 1
+      0.25f, -0.25f, 0.25f, 0.0f, -1.0f, 0.0f,   // 5
+
+      0.25f, 0.25f, 0.25f, 0.0f, 1.0f, 0.0f,  // 4
+      0.25f, 0.25f, -0.25f, 0.0f, 1.0f, 0.0f, // 3
+      -0.25f, 0.25f, 0.25f, 0.0f, 1.0f, 0.0f, // 7
+
+      -0.25f, 0.25f, -0.25f, 0.0f, 1.0f, 0.0f, // 0
+      -0.25f, 0.25f, 0.25f, 0.0f, 1.0f, 0.0f,  // 7
+      0.25f, 0.25f, -0.25f, 0.0f, 1.0f, 0.0f,  // 3
+  };
+
 
   // Vertex Buffer Object (for vertex coordinates)
   GLuint vbo = 0;
@@ -224,15 +239,11 @@ int main()
   glUseProgram(shader_program);
 
   // Uniforms
-  // - Model matrix
-  // - View matrix
-  // - Projection matrix
-  // - Normal matrix: normal vectors from local to world coordinates
-  // - Camera position
-  // - Light data
-  // - Material data
+  // Model matrix
   model_location = glGetUniformLocation(shader_program, "model");
+  // View matrix
   view_location = glGetUniformLocation(shader_program, "view");
+  // Projection matrix
   proj_location = glGetUniformLocation(shader_program, "projection");
 
   GLuint loc;
@@ -261,8 +272,6 @@ int main()
   loc = glGetUniformLocation(shader_program, "light.specular");
   glUniform3fv(loc, 1, glm::value_ptr(light_specular));
 
-  // [...]
-
   // Render loop
   while (!glfwWindowShouldClose(window))
   {
@@ -286,17 +295,22 @@ void render(double currentTime)
 
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-  //glClearColor(0.6, 0.6, 0.6, 1);
-
   glViewport(0, 0, gl_width, gl_height);
 
   glBindVertexArray(vao);
 
   glm::mat4 model_matrix, view_matrix, proj_matrix;
 
-  // View, model, projection operations
+  // View, projection, model operations
   view_matrix = glm::lookAt(camera_pos, glm::vec3(0.f, 0.f, -1.f), glm::vec3(0.f, 1.f, 0.f));
   glUniformMatrix4fv(view_location, 1, GL_FALSE, glm::value_ptr(view_matrix));
+
+  proj_matrix = glm::perspective(glm::radians(50.0f),
+                                 (float)gl_width / (float)gl_height,
+                                 0.1f, 1000.0f);
+  glUniformMatrix4fv(proj_location, 1, GL_FALSE, glm::value_ptr(proj_matrix));
+
+  // Cube movement
 
   model_matrix = glm::translate(glm::mat4(1.f), glm::vec3(0.0f, 0.0f, -1.0f));
   model_matrix = glm::translate(model_matrix,
@@ -313,10 +327,6 @@ void render(double currentTime)
 
   glUniformMatrix4fv(model_location, 1, GL_FALSE, glm::value_ptr(model_matrix));
 
-  proj_matrix = glm::perspective(glm::radians(50.0f),
-                                 (float)gl_width / (float)gl_height,
-                                 0.1f, 1000.0f);
-  glUniformMatrix4fv(proj_location, 1, GL_FALSE, glm::value_ptr(proj_matrix));
 
   glDrawArrays(GL_TRIANGLES, 0, 36);
 }

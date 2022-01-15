@@ -38,13 +38,13 @@ glm::vec3 camera_pos(0.0f, 0.0f, 3.0f);
 // Lighting
 glm::vec3 light_pos(5.0f, 0.0f, 1.0f);
 glm::vec3 light_ambient(0.2f, 0.1f, 0.1f);
-glm::vec3 light_diffuse(0.2f, 0.1f, 0.1f);
-glm::vec3 light_specular(0.8f, 0.0f, 0.0f);
+glm::vec3 light_diffuse(0.5f, 0.1f, 0.1f);
+glm::vec3 light_specular(1.0f, 0.0f, 0.0f);
 
 glm::vec3 light_pos2(-5.0f, 0.0f, 1.0f);
-glm::vec3 light_ambient2(0.1f, 0.1f, 0.2f);
-glm::vec3 light_diffuse2(0.1f, 0.1f, 0.2f);
-glm::vec3 light_specular2(0.0f, 0.0f, 0.8f);
+glm::vec3 light_ambient2(0.1f, 0.2f, 0.1f);
+glm::vec3 light_diffuse2(0.1f, 0.5f, 0.1f);
+glm::vec3 light_specular2(0.0f, 1.0f, 0.0f);
 
 // Material
 const GLfloat material_shininess = 85.0f;
@@ -61,10 +61,10 @@ int main()
     return 1;
   }
 
-  glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-  glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
-  glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
-  glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+  // glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+  // glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+  // glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
+  // glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
   GLFWwindow *window = glfwCreateWindow(gl_width, gl_height, "My spinning cube", NULL, NULL);
   if (!window)
@@ -166,54 +166,54 @@ int main()
   //       6        5
   //
   const GLfloat vertex_positions[] = {
-    -0.25f, -0.25f, -0.25f,  0.0f,  0.0f, -1.0f,  0.0f,  0.0f, // 1
-    -0.25f,  0.25f, -0.25f,  0.0f,  0.0f, -1.0f,  1.0f,  0.0f, // 0
-     0.25f, -0.25f, -0.25f,  0.0f,  0.0f, -1.0f,  0.0f,  1.0f, // 2
+      -0.25f, -0.25f, -0.25f, 0.0f, 0.0f, -1.0f, 0.0f, 0.0f, // 1
+      -0.25f, 0.25f, -0.25f, 0.0f, 0.0f, -1.0f, 1.0f, 0.0f,  // 0
+      0.25f, -0.25f, -0.25f, 0.0f, 0.0f, -1.0f, 0.0f, 1.0f,  // 2
 
-     0.25f,  0.25f, -0.25f,  0.0f,  0.0f, -1.0f,  1.0f,  1.0f, // 3
-     0.25f, -0.25f, -0.25f,  0.0f,  0.0f, -1.0f,  0.0f,  1.0f, // 2
-    -0.25f,  0.25f, -0.25f,  0.0f,  0.0f, -1.0f,  1.0f,  0.0f, // 0
+      0.25f, 0.25f, -0.25f, 0.0f, 0.0f, -1.0f, 1.0f, 1.0f,  // 3
+      0.25f, -0.25f, -0.25f, 0.0f, 0.0f, -1.0f, 0.0f, 1.0f, // 2
+      -0.25f, 0.25f, -0.25f, 0.0f, 0.0f, -1.0f, 1.0f, 0.0f, // 0
 
-     0.25f, -0.25f, -0.25f,  1.0f,  0.0f,  0.0f,  0.0f,  0.0f, // 2
-     0.25f,  0.25f, -0.25f,  1.0f,  0.0f,  0.0f,  1.0f,  0.0f, // 3
-     0.25f, -0.25f,  0.25f,  1.0f,  0.0f,  0.0f,  0.0f,  1.0f, // 5
+      0.25f, -0.25f, -0.25f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f, // 2
+      0.25f, 0.25f, -0.25f, 1.0f, 0.0f, 0.0f, 1.0f, 0.0f,  // 3
+      0.25f, -0.25f, 0.25f, 1.0f, 0.0f, 0.0f, 0.0f, 1.0f,  // 5
 
-     0.25f,  0.25f,  0.25f,  1.0f,  0.0f,  0.0f,  1.0f,  1.0f, // 4
-     0.25f, -0.25f,  0.25f,  1.0f,  0.0f,  0.0f,  0.0f,  1.0f, // 5
-     0.25f,  0.25f, -0.25f,  1.0f,  0.0f,  0.0f,  1.0f,  0.0f, // 3
+      0.25f, 0.25f, 0.25f, 1.0f, 0.0f, 0.0f, 1.0f, 1.0f,  // 4
+      0.25f, -0.25f, 0.25f, 1.0f, 0.0f, 0.0f, 0.0f, 1.0f, // 5
+      0.25f, 0.25f, -0.25f, 1.0f, 0.0f, 0.0f, 1.0f, 0.0f, // 3
 
-     0.25f, -0.25f,  0.25f,  0.0f,  0.0f,  1.0f,  0.0f,  0.0f, // 5
-     0.25f,  0.25f,  0.25f,  0.0f,  0.0f,  1.0f,  1.0f,  0.0f, // 4
-    -0.25f, -0.25f,  0.25f,  0.0f,  0.0f,  1.0f,  0.0f,  1.0f, // 6
+      0.25f, -0.25f, 0.25f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f,  // 5
+      0.25f, 0.25f, 0.25f, 0.0f, 0.0f, 1.0f, 1.0f, 0.0f,   // 4
+      -0.25f, -0.25f, 0.25f, 0.0f, 0.0f, 1.0f, 0.0f, 1.0f, // 6
 
-    -0.25f,  0.25f,  0.25f,  0.0f,  0.0f,  1.0f,  1.0f,  1.0f, // 7
-    -0.25f, -0.25f,  0.25f,  0.0f,  0.0f,  1.0f,  0.0f,  1.0f, // 6
-     0.25f,  0.25f,  0.25f,  0.0f,  0.0f,  1.0f,  1.0f,  0.0f, // 4
+      -0.25f, 0.25f, 0.25f, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f,  // 7
+      -0.25f, -0.25f, 0.25f, 0.0f, 0.0f, 1.0f, 0.0f, 1.0f, // 6
+      0.25f, 0.25f, 0.25f, 0.0f, 0.0f, 1.0f, 1.0f, 0.0f,   // 4
 
-    -0.25f, -0.25f,  0.25f, -1.0f,  0.0f,  0.0f,  0.0f,  0.0f, // 6
-    -0.25f,  0.25f,  0.25f, -1.0f,  0.0f,  0.0f,  1.0f,  0.0f, // 7
-    -0.25f, -0.25f, -0.25f, -1.0f,  0.0f,  0.0f,  0.0f,  1.0f, // 1
+      -0.25f, -0.25f, 0.25f, -1.0f, 0.0f, 0.0f, 0.0f, 0.0f,  // 6
+      -0.25f, 0.25f, 0.25f, -1.0f, 0.0f, 0.0f, 1.0f, 0.0f,   // 7
+      -0.25f, -0.25f, -0.25f, -1.0f, 0.0f, 0.0f, 0.0f, 1.0f, // 1
 
-    -0.25f,  0.25f, -0.25f, -1.0f,  0.0f,  0.0f,  1.0f,  1.0f, // 0
-    -0.25f, -0.25f, -0.25f, -1.0f,  0.0f,  0.0f,  0.0f,  1.0f, // 1
-    -0.25f,  0.25f,  0.25f, -1.0f,  0.0f,  0.0f,  1.0f,  0.0f, // 7
+      -0.25f, 0.25f, -0.25f, -1.0f, 0.0f, 0.0f, 1.0f, 1.0f,  // 0
+      -0.25f, -0.25f, -0.25f, -1.0f, 0.0f, 0.0f, 0.0f, 1.0f, // 1
+      -0.25f, 0.25f, 0.25f, -1.0f, 0.0f, 0.0f, 1.0f, 0.0f,   // 7
 
-     0.25f, -0.25f, -0.25f,  0.0f, -1.0f,  0.0f,  0.0f,  0.0f, // 2
-     0.25f, -0.25f,  0.25f,  0.0f, -1.0f,  0.0f,  1.0f,  0.0f, // 5
-    -0.25f, -0.25f, -0.25f,  0.0f, -1.0f,  0.0f,  0.0f,  1.0f, // 1
+      0.25f, -0.25f, -0.25f, 0.0f, -1.0f, 0.0f, 0.0f, 0.0f,  // 2
+      0.25f, -0.25f, 0.25f, 0.0f, -1.0f, 0.0f, 1.0f, 0.0f,   // 5
+      -0.25f, -0.25f, -0.25f, 0.0f, -1.0f, 0.0f, 0.0f, 1.0f, // 1
 
-    -0.25f, -0.25f,  0.25f,  0.0f, -1.0f,  0.0f,  1.0f,  1.0f, // 6
-    -0.25f, -0.25f, -0.25f,  0.0f, -1.0f,  0.0f,  0.0f,  1.0f, // 1
-     0.25f, -0.25f,  0.25f,  0.0f, -1.0f,  0.0f,  1.0f,  0.0f, // 5
+      -0.25f, -0.25f, 0.25f, 0.0f, -1.0f, 0.0f, 1.0f, 1.0f,  // 6
+      -0.25f, -0.25f, -0.25f, 0.0f, -1.0f, 0.0f, 0.0f, 1.0f, // 1
+      0.25f, -0.25f, 0.25f, 0.0f, -1.0f, 0.0f, 1.0f, 0.0f,   // 5
 
-     0.25f,  0.25f,  0.25f,  0.0f,  1.0f,  0.0f,  0.0f,  0.0f, // 4
-     0.25f,  0.25f, -0.25f,  0.0f,  1.0f,  0.0f,  1.0f,  0.0f, // 3
-    -0.25f,  0.25f,  0.25f,  0.0f,  1.0f,  0.0f,  0.0f,  1.0f, // 7
+      0.25f, 0.25f, 0.25f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f,  // 4
+      0.25f, 0.25f, -0.25f, 0.0f, 1.0f, 0.0f, 1.0f, 0.0f, // 3
+      -0.25f, 0.25f, 0.25f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f, // 7
 
-    -0.25f,  0.25f, -0.25f,  0.0f,  1.0f,  0.0f,  1.0f,  1.0f, // 0
-    -0.25f,  0.25f,  0.25f,  0.0f,  1.0f,  0.0f,  0.0f,  1.0f, // 7
-     0.25f,  0.25f, -0.25f,  0.0f,  1.0f,  0.0f,  1.0f,  0.0f, // 3
-    };
+      -0.25f, 0.25f, -0.25f, 0.0f, 1.0f, 0.0f, 1.0f, 1.0f, // 0
+      -0.25f, 0.25f, 0.25f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f,  // 7
+      0.25f, 0.25f, -0.25f, 0.0f, 1.0f, 0.0f, 1.0f, 0.0f,  // 3
+  };
 
   // Vertex Buffer Object (for vertex coordinates)
   GLuint vbo = 0;
@@ -231,7 +231,7 @@ int main()
   glEnableVertexAttribArray(1);
 
   // 2: text coords (s, t)
-  glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(6 * sizeof(float)));
+  glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void *)(6 * sizeof(float)));
   glEnableVertexAttribArray(2);
 
   // Unbind vbo (it was conveniently registered by VertexAttribPointer)
@@ -329,10 +329,10 @@ void render(double currentTime)
   glUniformMatrix4fv(view_location, 1, GL_FALSE, glm::value_ptr(view_matrix));
 
   model_matrix = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 0.0f, -1.0f));
-/*   model_matrix = glm::translate(model_matrix,
+  model_matrix = glm::translate(model_matrix,
                                 glm::vec3(sinf(2.1f * f) * 0.5f,
                                           cosf(1.7f * f) * 0.5f,
-                                          sinf(1.3f * f) * cosf(1.5f * f) * 2.0f)); */
+                                          sinf(1.3f * f) * cosf(1.5f * f) * 2.0f));
 
   model_matrix = glm::rotate(model_matrix,
                              glm::radians((float)currentTime * 45.0f),
@@ -376,7 +376,7 @@ void render(double currentTime)
   glBindTexture(GL_TEXTURE_2D, diffuseMap);
   glActiveTexture(GL_TEXTURE1);
   glBindTexture(GL_TEXTURE_2D, specularMap);
-  
+
   glDrawArrays(GL_TRIANGLES, 0, 36);
 }
 
@@ -394,36 +394,39 @@ void glfw_window_size_callback(GLFWwindow *window, int width, int height)
   printf("New viewport: (width: %d, height: %d)\n", width, height);
 }
 
-unsigned int loadTexture(char const * path){
-
+unsigned int loadTexture(char const *path)
+{
   unsigned int textureID;
   glGenTextures(1, &textureID);
 
-  // Set the texture wrapping/filtering options (on the currently bound texture object)
-  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+  int width, height, nrComponents;
+  unsigned char *data = stbi_load(path, &width, &height, &nrComponents, 0);
+  if (data)
+  {
+    GLenum format;
+    if (nrComponents == 1)
+      format = GL_RED;
+    else if (nrComponents == 3)
+      format = GL_RGB;
+    else if (nrComponents == 4)
+      format = GL_RGBA;
 
-  // Load image for texture
-  int width, height, nrChannels;
-  // Before loading the image, we flip it vertically because
-  // Images: 0.0 top of y-axis  OpenGL: 0.0 bottom of y-axis
-  stbi_set_flip_vertically_on_load(1);
-  unsigned char *data = stbi_load(path, &width, &height, &nrChannels, 0);
-
-  if (data) {
-    
-    // Generate texture from image
     glBindTexture(GL_TEXTURE_2D, textureID);
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
+    glTexImage2D(GL_TEXTURE_2D, 0, format, width, height, 0, format, GL_UNSIGNED_BYTE, data);
     glGenerateMipmap(GL_TEXTURE_2D);
-  } else {
-    printf("Failed to load texture\n");
-  }
 
-  // Free image once texture is generated
-  stbi_image_free(data);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+    stbi_image_free(data);
+  }
+  else
+  {
+    printf("Texture failed to load");
+    stbi_image_free(data);
+  }
 
   return textureID;
 }

@@ -33,15 +33,15 @@ const char *fragmentFileName = "spinningcube_withlight_fs.glsl";
 glm::vec3 camera_pos(0.0f, 0.0f, 3.0f);
 
 // Lighting
-glm::vec3 light_pos(5.0f, 5.0f, 0.0f);
+glm::vec3 light_pos(5.0f, 0.0f, 1.0f);
 glm::vec3 light_ambient(0.2f, 0.1f, 0.1f);
 glm::vec3 light_diffuse(0.5f, 0.1f, 0.1f);
 glm::vec3 light_specular(1.0f, 0.0f, 0.0f);
 
-glm::vec3 light_pos2(-5.0f, -5.0f, 0.0f);
-glm::vec3 light_ambient2(0.1f, 0.1f, 0.2f);
-glm::vec3 light_diffuse2(0.1f, 0.1f, 0.5f);
-glm::vec3 light_specular2(0.0f, 0.0f, 1.0f);
+glm::vec3 light_pos2(-5.0f, 0.0f, 1.0f);
+glm::vec3 light_ambient2(0.1f, 0.2f, 0.1f);
+glm::vec3 light_diffuse2(0.1f, 0.5f, 0.1f);
+glm::vec3 light_specular2(0.0f, 1.0f, 0.0f);
 
 // Material
 glm::vec3 material_ambient(0.8f, 0.8f, 0.8f);

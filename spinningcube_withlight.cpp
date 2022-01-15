@@ -36,24 +36,21 @@ const char *fragmentFileName = "spinningcube_withlight_fs.glsl";
 glm::vec3 camera_pos(0.0f, 0.0f, 3.0f);
 
 // Lighting
-glm::vec3 light_pos(5.0f, 5.0f, 0.0f);
+glm::vec3 light_pos(5.0f, 0.0f, 1.0f);
 glm::vec3 light_ambient(0.2f, 0.1f, 0.1f);
-glm::vec3 light_diffuse(0.5f, 0.1f, 0.1f);
-glm::vec3 light_specular(1.0f, 0.0f, 0.0f);
+glm::vec3 light_diffuse(0.2f, 0.1f, 0.1f);
+glm::vec3 light_specular(0.8f, 0.0f, 0.0f);
 
-glm::vec3 light_pos2(-5.0f, -5.0f, 0.0f);
+glm::vec3 light_pos2(-5.0f, 0.0f, 1.0f);
 glm::vec3 light_ambient2(0.1f, 0.1f, 0.2f);
-glm::vec3 light_diffuse2(0.1f, 0.1f, 0.5f);
-glm::vec3 light_specular2(0.0f, 0.0f, 1.0f);
+glm::vec3 light_diffuse2(0.1f, 0.1f, 0.2f);
+glm::vec3 light_specular2(0.0f, 0.0f, 0.8f);
 
 // Material
-glm::vec3 material_ambient(0.8f, 0.8f, 0.8f);
-glm::vec3 material_diffuse(1.0f, 1.0f, 1.0f);
-glm::vec3 material_specular(0.7f, 0.7f, 0.7f);
-const GLfloat material_shininess = 32.0f;
+const GLfloat material_shininess = 85.0f;
 
 // Textures
-unsigned int diffuseMap;
+unsigned int diffuseMap, specularMap;
 
 int main()
 {
@@ -245,6 +242,7 @@ int main()
 
   // load textures
   diffuseMap = loadTexture("diffuse.png");
+  specularMap = loadTexture("specular.png");
 
   glUseProgram(shader_program);
 
@@ -268,9 +266,9 @@ int main()
 
   // Material attributes
   loc = glGetUniformLocation(shader_program, "material.diffuse");
-  glUniform1f(loc, 0);
+  glUniform1i(loc, 0);
   loc = glGetUniformLocation(shader_program, "material.specular");
-  glUniform3fv(loc, 1, glm::value_ptr(material_specular));
+  glUniform1i(loc, 1);
   loc = glGetUniformLocation(shader_program, "material.shininess");
   glUniform1f(loc, material_shininess);
 
@@ -331,10 +329,10 @@ void render(double currentTime)
   glUniformMatrix4fv(view_location, 1, GL_FALSE, glm::value_ptr(view_matrix));
 
   model_matrix = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 0.0f, -1.0f));
-  model_matrix = glm::translate(model_matrix,
+/*   model_matrix = glm::translate(model_matrix,
                                 glm::vec3(sinf(2.1f * f) * 0.5f,
                                           cosf(1.7f * f) * 0.5f,
-                                          sinf(1.3f * f) * cosf(1.5f * f) * 2.0f));
+                                          sinf(1.3f * f) * cosf(1.5f * f) * 2.0f)); */
 
   model_matrix = glm::rotate(model_matrix,
                              glm::radians((float)currentTime * 45.0f),
@@ -353,6 +351,8 @@ void render(double currentTime)
   // Texture binding
   glActiveTexture(GL_TEXTURE0);
   glBindTexture(GL_TEXTURE_2D, diffuseMap);
+  glActiveTexture(GL_TEXTURE1);
+  glBindTexture(GL_TEXTURE_2D, specularMap);
 
   glDrawArrays(GL_TRIANGLES, 0, 36);
 
@@ -374,7 +374,9 @@ void render(double currentTime)
   // Texture binding
   glActiveTexture(GL_TEXTURE0);
   glBindTexture(GL_TEXTURE_2D, diffuseMap);
-
+  glActiveTexture(GL_TEXTURE1);
+  glBindTexture(GL_TEXTURE_2D, specularMap);
+  
   glDrawArrays(GL_TRIANGLES, 0, 36);
 }
 
@@ -411,6 +413,7 @@ unsigned int loadTexture(char const * path){
   unsigned char *data = stbi_load(path, &width, &height, &nrChannels, 0);
 
   if (data) {
+    
     // Generate texture from image
     glBindTexture(GL_TEXTURE_2D, textureID);
     glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);

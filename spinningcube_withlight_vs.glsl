@@ -9,11 +9,9 @@ out vec3 vs_color;
 uniform mat4 model;
 uniform mat4 view;
 uniform mat4 projection;
-//uniform mat3 normal_to_world;
 
 void main() {
   gl_Position = projection * view * model * vec4(v_pos, 1.0f);
   frag_3Dpos = vec3(model * vec4(v_pos, 1.0));
   vs_normal = normalize(mat3(transpose(inverse(model))) * v_normal);
-  //vs_normal = normalize(normal_to_world * v_normal);
 }

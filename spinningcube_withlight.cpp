@@ -42,9 +42,9 @@ glm::vec3 light_diffuse(0.5f, 0.1f, 0.1f);
 glm::vec3 light_specular(1.0f, 0.0f, 0.0f);
 
 glm::vec3 light_pos2(-5.0f, 0.0f, 1.0f);
-glm::vec3 light_ambient2(0.1f, 0.1f, 0.2f);
-glm::vec3 light_diffuse2(0.1f, 0.1f, 0.5f);
-glm::vec3 light_specular2(0.0f, 0.0f, 1.0f);
+glm::vec3 light_ambient2(0.1f, 0.2f, 0.1f);
+glm::vec3 light_diffuse2(0.1f, 0.5f, 0.1f);
+glm::vec3 light_specular2(0.0f, 1.0f, 0.0f);
 
 // Material
 glm::vec3 material_specular(0.7f, 0.7f, 0.7f);
@@ -390,39 +390,40 @@ void glfw_window_size_callback(GLFWwindow *window, int width, int height)
   printf("New viewport: (width: %d, height: %d)\n", width, height);
 }
 
-unsigned int loadTexture(char const *path)
-{
+unsigned int loadTexture(char const *path){
 
   unsigned int textureID;
   glGenTextures(1, &textureID);
 
-  // Set the texture wrapping/filtering options (on the currently bound texture object)
-  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+  int width, height, nrComponents;
 
-  // Load image for texture
-  int width, height, nrChannels;
-  // Before loading the image, we flip it vertically because
-  // Images: 0.0 top of y-axis  OpenGL: 0.0 bottom of y-axis
-  stbi_set_flip_vertically_on_load(1);
-  unsigned char *data = stbi_load(path, &width, &height, &nrChannels, 0);
+  unsigned char *data = stbi_load(path, &width, &height, &nrComponents, 0);
 
-  if (data)
-  {
-    // Generate texture from image
+  if (data) {
+    
+    GLenum format;
+    
+    if (nrComponents == 1)
+      format = GL_RED;
+    else if (nrComponents == 3)
+      format = GL_RGB;
+    else if (nrComponents == 4)
+      format = GL_RGBA;
+
     glBindTexture(GL_TEXTURE_2D, textureID);
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
+    glTexImage2D(GL_TEXTURE_2D, 0, format, width, height, 0, format, GL_UNSIGNED_BYTE, data);
     glGenerateMipmap(GL_TEXTURE_2D);
-  }
-  else
-  {
-    printf("Failed to load texture\n");
-  }
 
-  // Free image once texture is generated
-  stbi_image_free(data);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
+    stbi_image_free(data);
+  } else {
+
+    printf("Texture failed to load");
+    stbi_image_free(data);
+  }
   return textureID;
 }

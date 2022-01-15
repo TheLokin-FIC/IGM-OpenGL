@@ -1,3 +1,7 @@
+// Diego Ramil López
+// David García Gondell
+// Iván Barrientos Lema
+
 // Copyright (C) 2020 Emilio J. Padrón
 // Released as Free Software under the X11 License
 // https://spdx.org/licenses/X11.html
@@ -16,6 +20,7 @@
 
 #include "textfile_ALT.h"
 
+// Window dimensions
 int gl_width = 640;
 int gl_height = 480;
 
@@ -36,11 +41,13 @@ const char *fragmentFileName = "spinningcube_withlight_fs.glsl";
 glm::vec3 camera_pos(0.0f, 0.0f, 3.0f);
 
 // Lighting
+// Light 1: Red light to the right of the cubes
 glm::vec3 light_pos(5.0f, 0.0f, 1.0f);
 glm::vec3 light_ambient(0.2f, 0.1f, 0.1f);
 glm::vec3 light_diffuse(0.5f, 0.1f, 0.1f);
 glm::vec3 light_specular(1.0f, 0.0f, 0.0f);
 
+// Light 2: Green light to the left of the cubes
 glm::vec3 light_pos2(-5.0f, 0.0f, 1.0f);
 glm::vec3 light_ambient2(0.1f, 0.2f, 0.1f);
 glm::vec3 light_diffuse2(0.1f, 0.5f, 0.1f);
@@ -62,10 +69,10 @@ int main()
     return 1;
   }
 
-  // glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-  // glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
-  // glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
-  // glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+  glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+  glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+  glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
+  glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
   GLFWwindow *window = glfwCreateWindow(gl_width, gl_height, "My spinning cube", NULL, NULL);
   if (!window)
@@ -166,6 +173,7 @@ int main()
   // far ---> 1        2
   //       6        5
   //
+  // x, y, z, normal x, normal y, normal z
   const GLfloat vertex_positions[] = {
       -0.25f, -0.25f, -0.25f, 0.0f, 0.0f, -1.0f, 0.0f, 0.0f, // 1
       -0.25f, 0.25f, -0.25f, 0.0f, 0.0f, -1.0f, 1.0f, 0.0f,  // 0
@@ -241,21 +249,19 @@ int main()
   // Unbind vao
   glBindVertexArray(0);
 
-  // load textures
+  // Load textures
   diffuseMap = loadTexture("diffuse.png");
 
   glUseProgram(shader_program);
 
   // Uniforms
-  // - Model matrix
-  // - View matrix
-  // - Projection matrix
-  // - Normal matrix: normal vectors from local to world coordinates
-  // - Camera position
-  // - Light data
-  // - Material data
+  // Model matrix
   model_location = glGetUniformLocation(shader_program, "model");
+  
+  // View matrix
   view_location = glGetUniformLocation(shader_program, "view");
+  
+  // Projection matrix
   proj_location = glGetUniformLocation(shader_program, "projection");
 
   GLuint loc;
@@ -265,14 +271,13 @@ int main()
   glUniform3fv(loc, 1, glm::value_ptr(camera_pos));
 
   // Material attributes
-  loc = glGetUniformLocation(shader_program, "material.diffuse");
-  glUniform1i(loc, 0);
   loc = glGetUniformLocation(shader_program, "material.specular");
   glUniform3fv(loc, 1, glm::value_ptr(material_specular));
   loc = glGetUniformLocation(shader_program, "material.shininess");
   glUniform1f(loc, material_shininess);
 
   // Light attributes
+  // Light 1
   loc = glGetUniformLocation(shader_program, "light1.position");
   glUniform3fv(loc, 1, glm::value_ptr(light_pos));
   loc = glGetUniformLocation(shader_program, "light1.ambient");
@@ -282,6 +287,7 @@ int main()
   loc = glGetUniformLocation(shader_program, "light1.specular");
   glUniform3fv(loc, 1, glm::value_ptr(light_specular));
 
+  // Light 2
   loc = glGetUniformLocation(shader_program, "light2.position");
   glUniform3fv(loc, 1, glm::value_ptr(light_pos2));
   loc = glGetUniformLocation(shader_program, "light2.ambient");
@@ -291,7 +297,6 @@ int main()
   loc = glGetUniformLocation(shader_program, "light2.specular");
   glUniform3fv(loc, 1, glm::value_ptr(light_specular2));
 
-  // [...]
 
   // Render loop
   while (!glfwWindowShouldClose(window))
@@ -328,6 +333,13 @@ void render(double currentTime)
   view_matrix = glm::lookAt(camera_pos, glm::vec3(0.f, 0.f, -1.f), glm::vec3(0.f, 1.f, 0.f));
   glUniformMatrix4fv(view_location, 1, GL_FALSE, glm::value_ptr(view_matrix));
 
+    proj_matrix = glm::perspective(glm::radians(50.0f),
+                                 (float)gl_width / (float)gl_height,
+                                 0.1f, 1000.0f);
+  glUniformMatrix4fv(proj_location, 1, GL_FALSE, glm::value_ptr(proj_matrix));
+
+  // Cube 1 & movement
+
   model_matrix = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 0.0f, -1.0f));
   model_matrix = glm::translate(model_matrix,
                                 glm::vec3(sinf(2.1f * f) * 0.5f,
@@ -343,18 +355,13 @@ void render(double currentTime)
 
   glUniformMatrix4fv(model_location, 1, GL_FALSE, glm::value_ptr(model_matrix));
 
-  proj_matrix = glm::perspective(glm::radians(50.0f),
-                                 (float)gl_width / (float)gl_height,
-                                 0.1f, 1000.0f);
-  glUniformMatrix4fv(proj_location, 1, GL_FALSE, glm::value_ptr(proj_matrix));
-
   // Texture binding
   glActiveTexture(GL_TEXTURE0);
   glBindTexture(GL_TEXTURE_2D, diffuseMap);
 
   glDrawArrays(GL_TRIANGLES, 0, 36);
 
-  //Second cube
+  // Cube 2 & movement
   model_matrix = glm::scale(glm::mat4(1.0f), glm::vec3(0.5f));
   model_matrix = glm::translate(model_matrix, glm::vec3(-1.5f, -1.5f, -1.0f));
   model_matrix = glm::translate(model_matrix,
@@ -390,6 +397,7 @@ void glfw_window_size_callback(GLFWwindow *window, int width, int height)
   printf("New viewport: (width: %d, height: %d)\n", width, height);
 }
 
+// Function to load a texture from a path
 unsigned int loadTexture(char const *path){
 
   unsigned int textureID;

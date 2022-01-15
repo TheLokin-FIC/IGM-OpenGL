@@ -36,19 +36,17 @@ const char *fragmentFileName = "spinningcube_withlight_fs.glsl";
 glm::vec3 camera_pos(0.0f, 0.0f, 3.0f);
 
 // Lighting
-glm::vec3 light_pos(5.0f, 5.0f, 0.0f);
+glm::vec3 light_pos(5.0f, 0.0f, 1.0f);
 glm::vec3 light_ambient(0.2f, 0.1f, 0.1f);
 glm::vec3 light_diffuse(0.5f, 0.1f, 0.1f);
 glm::vec3 light_specular(1.0f, 0.0f, 0.0f);
 
-glm::vec3 light_pos2(-5.0f, -5.0f, 0.0f);
+glm::vec3 light_pos2(-5.0f, 0.0f, 1.0f);
 glm::vec3 light_ambient2(0.1f, 0.1f, 0.2f);
 glm::vec3 light_diffuse2(0.1f, 0.1f, 0.5f);
 glm::vec3 light_specular2(0.0f, 0.0f, 1.0f);
 
 // Material
-glm::vec3 material_ambient(0.8f, 0.8f, 0.8f);
-glm::vec3 material_diffuse(1.0f, 1.0f, 1.0f);
 glm::vec3 material_specular(0.7f, 0.7f, 0.7f);
 const GLfloat material_shininess = 32.0f;
 
@@ -268,7 +266,7 @@ int main()
 
   // Material attributes
   loc = glGetUniformLocation(shader_program, "material.diffuse");
-  glUniform1f(loc, 0);
+  glUniform1i(loc, 0);
   loc = glGetUniformLocation(shader_program, "material.specular");
   glUniform3fv(loc, 1, glm::value_ptr(material_specular));
   loc = glGetUniformLocation(shader_program, "material.shininess");

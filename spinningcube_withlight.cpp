@@ -33,15 +33,20 @@ const char *fragmentFileName = "spinningcube_withlight_fs.glsl";
 glm::vec3 camera_pos(0.0f, 0.0f, 3.0f);
 
 // Lighting
-glm::vec3 light_pos(1.2f, 1.0f, 2.0f);
-glm::vec3 light_ambient(0.2f, 0.2f, 0.2f);
-glm::vec3 light_diffuse(0.5f, 0.5f, 0.5f);
-glm::vec3 light_specular(1.0f, 1.0f, 1.0f);
+glm::vec3 light_pos(5.0f, 5.0f, 0.0f);
+glm::vec3 light_ambient(0.2f, 0.1f, 0.1f);
+glm::vec3 light_diffuse(0.5f, 0.1f, 0.1f);
+glm::vec3 light_specular(1.0f, 0.0f, 0.0f);
+
+glm::vec3 light_pos2(-5.0f, -5.0f, 0.0f);
+glm::vec3 light_ambient2(0.1f, 0.1f, 0.2f);
+glm::vec3 light_diffuse2(0.1f, 0.1f, 0.5f);
+glm::vec3 light_specular2(0.0f, 0.0f, 1.0f);
 
 // Material
-glm::vec3 material_ambient(1.0f, 0.5f, 0.31f);
-glm::vec3 material_diffuse(1.0f, 0.5f, 0.31f);
-glm::vec3 material_specular(0.5f, 0.5f, 0.5f);
+glm::vec3 material_ambient(0.8f, 0.8f, 0.8f);
+glm::vec3 material_diffuse(1.0f, 1.0f, 1.0f);
+glm::vec3 material_specular(0.7f, 0.7f, 0.7f);
 const GLfloat material_shininess = 32.0f;
 
 int main()
@@ -53,10 +58,10 @@ int main()
     return 1;
   }
 
-  /*   glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
   glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
   glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
-  glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE); */
+  glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
   GLFWwindow *window = glfwCreateWindow(gl_width, gl_height, "My spinning cube", NULL, NULL);
   if (!window)
@@ -252,14 +257,23 @@ int main()
   glUniform1f(loc, material_shininess);
 
   // Light attributes
-  loc = glGetUniformLocation(shader_program, "light.position");
+  loc = glGetUniformLocation(shader_program, "light1.position");
   glUniform3fv(loc, 1, glm::value_ptr(light_pos));
-  loc = glGetUniformLocation(shader_program, "light.ambient");
+  loc = glGetUniformLocation(shader_program, "light1.ambient");
   glUniform3fv(loc, 1, glm::value_ptr(light_ambient));
-  loc = glGetUniformLocation(shader_program, "light.diffuse");
+  loc = glGetUniformLocation(shader_program, "light1.diffuse");
   glUniform3fv(loc, 1, glm::value_ptr(light_diffuse));
-  loc = glGetUniformLocation(shader_program, "light.specular");
+  loc = glGetUniformLocation(shader_program, "light1.specular");
   glUniform3fv(loc, 1, glm::value_ptr(light_specular));
+
+  loc = glGetUniformLocation(shader_program, "light2.position");
+  glUniform3fv(loc, 1, glm::value_ptr(light_pos2));
+  loc = glGetUniformLocation(shader_program, "light2.ambient");
+  glUniform3fv(loc, 1, glm::value_ptr(light_ambient2));
+  loc = glGetUniformLocation(shader_program, "light2.diffuse");
+  glUniform3fv(loc, 1, glm::value_ptr(light_diffuse2));
+  loc = glGetUniformLocation(shader_program, "light2.specular");
+  glUniform3fv(loc, 1, glm::value_ptr(light_specular2));
 
   // [...]
 

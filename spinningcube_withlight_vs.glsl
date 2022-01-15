@@ -4,7 +4,6 @@ in vec3 v_normal;
 
 out vec3 frag_3Dpos;
 out vec3 vs_normal;
-out vec3 vs_color;
 
 uniform mat4 model;
 uniform mat4 view;

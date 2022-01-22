@@ -1,3 +1,15 @@
+
+
+---
+**Estrutura do repositorio:**
+Cada parte ten a súa propia rama onde se encontra o código, un Makefile para a súa compilación e unha captura do resultado obtido.
+As ramas dispoñibles son:
+- [PrimeiraParte](https://github.com/TheLokin/IGM-OpenGL/tree/PrimeiraParte)
+- [SegundaParte](https://github.com/TheLokin/IGM-OpenGL/tree/SegundaParte)
+- [TerceiraParte](https://github.com/TheLokin/IGM-OpenGL/tree/TerceiraParte)
+- [CuartaParte](https://github.com/TheLokin/IGM-OpenGL/tree/CuartaParte)
+---
+
 Para a avaliación desta parte da materia tedes estas dúas prácticas,
 con distintas opcións/nota en función do tempo que lle
 queirades/poidades adicar.
